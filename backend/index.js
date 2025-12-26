@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.get("/api", (req, res) => {
   res.json({
@@ -9,6 +9,10 @@ app.get("/api", (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend API is running on GCP VM 🚀");
+});
+
 app.listen(port, () => {
-  console.log(`Backend running on http://localhost:${port}/api`);
+  console.log(`Backend running at http://localhost:${port}/api`);
 });
