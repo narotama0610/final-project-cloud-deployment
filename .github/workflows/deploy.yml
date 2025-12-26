@@ -20,6 +20,24 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_KEY }}
           script: |
-            cd /home/rachadyannarotama/backend
+            set -e
+            cd /home/rachadyannarotama/frontend
+
+            echo "=== Pull latest code ==="
             git pull origin main
-            pm2 restart backend-api
+
+            echo "=== Install deps ==="
+            npm install --legacy-peer-deps
+
+            echo "=== Build production ==="
+            rm -rf build
+            npm run build
+
+            echo "=== Deploy to Nginx ==="
+            sudo rm -rf /var/www/html/*
+            sudo cp -r build/* /var/www/html/
+
+            echo "=== Restart Nginx ==="
+            sudo systemctl restart nginx
+
+            echo "=== Deployment Success ==="
